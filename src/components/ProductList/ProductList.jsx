@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { useTelegram } from '../../hooks/useTelegram'
-import ProductItem from '../ProductItem/ProductItem'
-import './ProductList.css'
-import { useCallback, useEffect } from 'react'
+import React, { useState } from 'react';
+import { useTelegram } from '../../hooks/useTelegram';
+import ProductItem from '../ProductItem/ProductItem';
+import './ProductList.css';
+import { useCallback, useEffect } from 'react';
 
 const products = [
     {id: '1', title: 'Джинсы', price: 5000, description: 'Синего цвета, прямые'},
@@ -22,8 +22,8 @@ const getTotalPrice = (items = []) => {
 }
 
 const ProductList = () => {
-    const [addedItems, setAddedItems] = useState([])
-    const {tg, queryId} = useTelegram()
+    const [addedItems, setAddedItems] = useState([]);
+    const {tg, queryId} = useTelegram();
 
     const onSendData = useCallback(() => {
         const data = {
@@ -31,7 +31,7 @@ const ProductList = () => {
             totalPrice: getTotalPrice(addedItems),
             queryId,
         }
-        fetch('http://109.71.13.222:8000/web-data', {
+        fetch('http://85.119.146.179:8000/web-data', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -48,27 +48,28 @@ const ProductList = () => {
     }, [onSendData])
 
     const onAdd = (product) => {
-        const alreadyAdded = addedItems.find(item => item.id === product.id)
-        let newItems = []
+        const alreadyAdded = addedItems.find(item => item.id === product.id);
+        let newItems = [];
 
-        if(alreadyAdded){
-            newItems = addedItems.filter(item => item.id !== product.id)
+        if(alreadyAdded) {
+            newItems = addedItems.filter(item => item.id !== product.id);
         } else {
-            newItems = [...addedItems, product]
+            newItems = [...addedItems, product];
         }
 
         setAddedItems(newItems)
 
-        if(newItems.length === 0){
-            tg.MainButton.hide()
+        if(newItems.length === 0) {
+            tg.MainButton.hide();
         } else {
-            tg.MainButton.show()
+            tg.MainButton.show();
             tg.MainButton.setParams({
                 text: `Купить ${getTotalPrice(newItems)}`
             })
         }
-    } 
-    return(
+    }
+
+    return (
         <div className={'list'}>
             {products.map(item => (
                 <ProductItem
@@ -78,7 +79,7 @@ const ProductList = () => {
                 />
             ))}
         </div>
-    )
-}
+    );
+};
 
-export default ProductList
+export default ProductList;

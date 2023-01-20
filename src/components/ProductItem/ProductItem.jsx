@@ -1,11 +1,13 @@
-import React from 'react'
-import Button from '../Button/Button'
-import './ProductItem.css'
+import React from 'react';
+import Button from "../Button/Button";
+import './ProductItem.css';
 
 const ProductItem = ({product, className, onAdd}) => {
+
     const onAddHandler = () => {
-        onAdd(product)
+        onAdd(product);
     }
+
     return (
         <div className={'product ' + className}>
             <div className={'img'}/>
@@ -18,7 +20,7 @@ const ProductItem = ({product, className, onAdd}) => {
                 Добавить в корзину
             </Button>
         </div>
-    )
-}
+    );
+};
 
-export default ProductItem
+export default ProductItem;
