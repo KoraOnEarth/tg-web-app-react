@@ -22,7 +22,7 @@ const getTotalPrice = (items = []) => {
 
 const ProductList = () => {
     const [addedItems, setAddedItems] = useState([])
-    const {tg} = useTelegram
+    const {tg} = useTelegram()
 
     const onAdd = (product) => {
         const alreadyAdded = addedItems.find(item => item.id === product.id)
@@ -44,7 +44,7 @@ const ProductList = () => {
                 text: `Купить ${getTotalPrice(newItems)}`
             })
         }
-    }
+    } 
     return(
         <div className={'list'}>
             {products.map(item => (
