@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useTelegram } from '../hooks/useTelegram'
+import { useTelegram } from '../../hooks/useTelegram'
 import './Form.css'
 
 const Form = () => {
@@ -33,21 +33,21 @@ const Form = () => {
     }
 
     return(
-        <div className={'form'}>
+        <div className={"form"}>
             <h3>Введите Ваши данные</h3>
             <input
-             className={"input"}
-             type="text"
-             placeholder={'Страна'}
-             value={country}
-             onChange={onChangeCountry}
+                className={"input"}
+                type="text"
+                placeholder={'Страна'}
+                value={country}
+                onChange={onChangeCountry}
             />
             <input
-             className={"input"}
-             type="text"
-             placeholder={'Улица'}
-             value={street}
-             onChange={onChangeStreet}
+                className={"input"}
+                type="text"
+                placeholder={'Улица'}
+                value={street}
+                onChange={onChangeStreet}
             />
             <select value={subject} onChange={onChangeSubject} className={'select'}>
                 <option value={'physical'}>Физ. лицо</option>
