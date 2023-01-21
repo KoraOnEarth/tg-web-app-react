@@ -1,70 +1,108 @@
-# Getting Started with Create React App
+# Курсовая работа: Часть 1 (Front-End)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Цель работы
 
-## Available Scripts
+Разработать телеграмм-магазин и бота к нему, в котором можно будет покупать различные предметы.
 
-In the project directory, you can run:
+## Telegram-Bot
 
-### `npm start`
+https://t.me/KoraSHOP_bot
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Общий стек технологий:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. ReactJS (v18.0.2)
+2. NodeJS (v16.15.1)
+3. Хостинги: Netlify (Front-end), Selectel (Back-End)
 
-### `npm test`
+## Дополнительные библиотеки
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Node-telegram-bot-api (v0.61.0)
+2. Nodemon (v2.0.20)
+3. Cores (v2.8.5)
+4. Express (v4.18.2)
 
-### `npm run build`
+# Здесь будет Front-End часть
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## ReactJS
+На React реализован сам магазин, который открывается нам в виде небольшого окна в телеграмм-боте.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+У нас есть два основных файла - `./public/index.html` и `./src/index.js`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `index.html`
+В первом файле у нас хранится базовая разметка нашего сайта. 
+Больше всего нас интересует тег `div id="root"`, в котором, по сути, находится ВСЕ наше web-приложение. И все отображение нашего сайта хранится как раз в этом `div`.
 
-### `npm run eject`
+### `index.js`
+Во втором файле - `index.js` у нас находится базовая структура React. 
+В первых нескольких строках идут импорты самого React (`import React from 'react'`), ReactDOM (`import ReactDOM from 'react-dom/client'`) - для работы с "виртуальным" DOM, и BrowserRouter.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Также создается переменная root - это та переменная, которая будет передана в index.html, которая и составляет все наше приложение, а также функция render().
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### `App.js` и `App.css`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+В `index.js` передается App - компонент, который отвечает за Все наше приложение, в котором хранятся все необходимые данные, логика, отображение и внешний вид. 
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Помимо необходимых импортов React'a и react-router-dom, а также нескольких функций оттуда, у нас там есть, например, импорт `import {useTelegram} from "./hooks/useTelegram"`. Он нам необходим для удобной работы с библиотекой телеграмма, о которой подробнее речь пойдет ниже. 
 
-## Learn More
+Ну а в `App.css` хранятся стили для `App.js`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### `useTelegram.js`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Данный файл находится по адресу `./src/hooks/useTelegram.js`.
+Это хук, который я использовал для того, чтобы удобно работать с библиотекой от Telegram. Там находится константа `tg`, в которой находится обращение к самому API Телеграмма, а также несколько функций - `onClose()`, `onToggleButton()` и return, в котором я отдавал эти функции, чтобы ими можно было воспользоваться в других файлах проекта, переменную `tg`, чтобы впоследствии не нужно было писать полностью `window.Telegram.WebApp`, а также сокращения для других переменных - `user` вместо `tg.initDataUnsafe?.user` и `queryId` вместо `tg.initDataUnsafe?.query_id`. 
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+## Компоненты
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Компоненты находятся в папке `components`, которая находится по адресу `./src/compontnts`. В ней можно увидеть ещё несколько папок - `Header`, `Form`, `Button`, `ProductItem`, `ProductList`.
 
-### Making a Progressive Web App
+### `Header`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Это компонент, который отвечает за отрисовку "шапки" нашего сайта. 
+В папке находятся 2 файла: `Header.jsx`, в котором находится логика компонента, и `Header.css`, в котором прописаны стили для этого компонента.
 
-### Advanced Configuration
+На первых нескольких строках файла `Header.jsx` находятся импорты, которые нам необходимы - это импорт самого React, стилей для компонента, хук `useTelegram` и `Button` - ещё один компонент, который будет чуть ниже. 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+В шапке находится два элемента - кнопка "Закрыть", которая закрывает окошко магазина, а также отображение имени/никнейма, под которым мы подписаны в Телеграмме.
 
-### Deployment
+### `Button`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+В этом компоненте находится кнопка, которая настроена под React, которая принимает в себя аргументы (props), с которыми может взаимодействовать.
 
-### `npm run build` fails to minify
+Эта кнопка используется в компоненте `Header` для возможности закрыть мини-приложение.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### `ProductList`
+
+Открывая магазин, видя список товаров, мы, по сути, видим ProductList. В нем находится список все товаров, которые находятся в продаже. 
+
+В переменной `products` находится список товаров, которые продаются на данный момент.
+
+Функция `getTotalPrice` подсчитывает стоимость выбранных товаров, и цена выводится в кнопке внизу.
+
+Далее идёт сам компонент `ProductList`. В нем мы подключаем один из встроенных хуков React - `useState`, который является хуком состояния. 
+
+Затем мы импортируем `tg` и `queryId` из нашего собственного хука `useTelegram`.
+
+`onSendData` - функция, которая нужна для того, чтобы отправить информацию на сервер о том, что было выбрано пользователем для дальнейшей работы.
+
+`onAdd` - функция, которая срабатывает при добавлении предмета в корзину.
+
+
+### `ProductItem`
+
+Этот компонент отвечает за конкретный продаваемый предмет.
+В нем выводится фотография товара, его название, описание и цена. А также добавлена кнопка "Добавить в корзину".
+
+
+### `Form`
+
+В диалоге с ботом у нас есть кнопка "Заполнить форму", в которой мы можем отправить информацию о том, куда отправлять наш заказ.
+
+## TOML
+### `netlify.toml`
+
+Здесь хранится конфигурация для Netlify, которая позволяет вызову формы корректно отрабатывать.
+
+
+---
