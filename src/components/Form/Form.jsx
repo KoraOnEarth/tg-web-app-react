@@ -8,6 +8,10 @@ const Form = () => {
     const [subject, setSubject] = useState('physical');
     const {tg} = useTelegram();
 
+    // Слушатель события, чтобы при каждом вызове функция не создавалась снова
+    // function useCallback (callback, deps) {
+    //
+    //}
     const onSendData = useCallback(() => {
         const data = {
             country,
@@ -17,6 +21,7 @@ const Form = () => {
         tg.sendData(JSON.stringify(data));
     }, [country, street, subject])
 
+
     useEffect(() => {
         tg.onEvent('mainButtonClicked', onSendData)
         return () => {
@@ -24,12 +29,14 @@ const Form = () => {
         }
     }, [onSendData])
 
+    //Настройка надписи MainButton
     useEffect(() => {
         tg.MainButton.setParams({
             text: 'Отправить данные'
         })
     }, [])
 
+    //Чтобы кнопка скрывалась, если что-то не введено (Простейшая валидация)
     useEffect(() => {
         if(!street || !country) {
             tg.MainButton.hide();

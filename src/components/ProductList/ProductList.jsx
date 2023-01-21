@@ -25,6 +25,8 @@ const ProductList = () => {
     const [addedItems, setAddedItems] = useState([]);
     const {tg, queryId} = useTelegram();
 
+    //Отправка выбранных товаров на сервер
+    //Слушатель события, чтобы при каждом вызове функция не создавалась снова
     const onSendData = useCallback(() => {
         const data = {
             products: addedItems,
